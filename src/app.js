@@ -10,10 +10,15 @@ export default class App extends React.Component {
     this.state = {
       userInfo: null,
       repos: [],
-      starred: []
+      starred: [],
+      isFetching: false
     }
+  }
 
-    this.result = ''
+  getGitHubApiUrl (username, type) {
+    const internalUser = username ? `${username}` : ''
+    const internalType = type ? `/${type}` : ''
+    return `https://api.github.com/users/${internalUser}${internalType}`
   }
 
   handleSearch (e) {
@@ -22,9 +27,11 @@ export default class App extends React.Component {
     const ENTER = 13
 
     if (keyCode === ENTER) {
-      ajax().get(`https://api.github.com/users/${value}`)
+      this.setState({
+        isFetching: true
+      })
+      ajax().get(this.getGitHubApiUrl(value))
         .then((result) => {
-          this.result = result
           this.setState({
             userInfo: {
               userName: result.name,
@@ -33,28 +40,24 @@ export default class App extends React.Component {
               repos: result.public_repos,
               followers: result.followers,
               following: result.following
-            }
+            },
+            repos: [],
+            starred: []
           })
-        })
+        }).always(() => this.setState({ isFetching: false }))
     }
   }
 
-  handleRepo (e) {
-    ajax().get(this.result.repos_url)
-      .then((result) => {
-        this.setState({
-          repos: result
+  getRepos (type) {
+    return (e) => {
+      const username = this.state.userInfo.login
+      ajax().get(this.getGitHubApiUrl(username, type))
+        .then((result) => {
+          this.setState({
+            [type]: result
+          })
         })
-      })
-  }
-
-  handleStarred (e) {
-    ajax().get(this.result.starred_url)
-      .then((result) => {
-        this.setState({
-          starred: result
-        })
-      })
+    }
   }
 
   render () {
@@ -63,9 +66,10 @@ export default class App extends React.Component {
         userInfo={this.state.userInfo}
         repos={this.state.repos}
         starred={this.state.starred}
+        isFetching={this.state.isFetching}
         handleSearch={(e) => this.handleSearch(e)}
-        handleRepo={(e) => this.handleRepo(e)}
-        handleStarred={(e) => this.handleStarred(e)}
+        getRepos={this.getRepos('repos')}
+        getStarred={this.getRepos('starred')}
       />
     )
   }

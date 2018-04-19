@@ -11,7 +11,7 @@ export default class Repos extends Component {
         <ul>
           {this.props.repos.map((repo, index) => (
             <li key={index} className='list-group-item'>
-              <a href={repo.link}>{repo.name}</a></li>
+              <a href={repo.html_url}>{repo.name}</a></li>
           ))}
         </ul>
       </div>

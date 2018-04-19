@@ -11,6 +11,7 @@ export default class Search extends Component {
           className='form-control'
           type='search'
           placeholder='Digite o nome do usuário'
+          disabled={this.props.isDisabled}
           onKeyUp={this.props.handleSearch}
         />
       </div>
@@ -19,5 +20,6 @@ export default class Search extends Component {
 }
 
 Search.propTypes = {
-  handleSearch: PropTypes.func.isRequired
+  handleSearch: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool.isRequired
 }
