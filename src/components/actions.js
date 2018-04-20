@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 export default class Actions extends Component {
   render () {
     return (
-      <div className='actions btn-group col-lg-4'>
+      <div className='actions offset-2 col-lg-10 text-center'>
         <button onClick={this.props.getRepos} className='btn btn-primary'>Ver repositórios</button>
         <button onClick={this.props.getStarred} className='btn btn-primary'>Ver favoritos</button>
       </div>

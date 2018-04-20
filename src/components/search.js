@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 export default class Search extends Component {
   render () {
     return (
-      <div className='search col-lg-4 form-group'>
+      <div className='search offset-3 col-lg-6 form-group'>
         <input
           className='form-control'
           type='search'

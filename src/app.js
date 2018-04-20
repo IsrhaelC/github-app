@@ -53,9 +53,17 @@ export default class App extends React.Component {
       const username = this.state.userInfo.login
       ajax().get(this.getGitHubApiUrl(username, type))
         .then((result) => {
-          this.setState({
-            [type]: result
-          })
+          if (type === 'repos') {
+            this.setState({
+              repos: result,
+              starred: []
+            })
+          } else {
+            this.setState({
+              starred: result,
+              repos: []
+            })
+          }
         })
     }
   }

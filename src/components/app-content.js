@@ -12,27 +12,32 @@ export default class AppContent extends Component {
   render () {
     return (
       <div className='app container'>
-        <Search handleSearch={this.props.handleSearch} isDisabled={this.props.isFetching} />
-        {this.props.isFetching && <div>Carregando...</div>}
-        {!!this.props.userInfo && <UserInfo userInfo={this.props.userInfo} />}
-        {!!this.props.userInfo && <Actions getRepos={this.props.getRepos} getStarred={this.props.getStarred} />}
+        <div className='row'>
+          <Search handleSearch={this.props.handleSearch} isDisabled={this.props.isFetching} />
+          {this.props.isFetching && <div>Carregando...</div>}
+        </div>
+        <div className='row'>
+          {!!this.props.userInfo && <UserInfo userInfo={this.props.userInfo} />}
+          <div className='col'>
+            {!!this.props.userInfo && <Actions getRepos={this.props.getRepos} getStarred={this.props.getStarred} />}
 
-        {!!this.props.repos.length &&
-          <Repos
-            className='repos list-group'
-            title='Repositório'
-            repos={this.props.repos}
-          />
-        }
+            {!!this.props.repos.length &&
+            <Repos
+              className='repos list-group offset-2 col-lg-10'
+              title='Repositórios'
+              repos={this.props.repos}
+            />
+            }
 
-        {!!this.props.starred.length &&
-          <Repos
-            className='starred list-group'
-            title='Favoritos'
-            repos={this.props.starred}
-          />
-        }
-
+            {!!this.props.starred.length &&
+            <Repos
+              className='starred list-group offset-2 col-lg-10'
+              title='Favoritos'
+              repos={this.props.starred}
+            />
+            }
+          </div>
+        </div>
       </div>
     )
   }
